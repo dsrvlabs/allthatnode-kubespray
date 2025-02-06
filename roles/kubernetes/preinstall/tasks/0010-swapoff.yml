@@ -8,7 +8,6 @@
   register: fstab_file
 
 - name: Remove swapfile from /etc/fstab
-  # ansible.posix.mount:
     name: "{{ item }}"
     fstype: swap
     state: absent
