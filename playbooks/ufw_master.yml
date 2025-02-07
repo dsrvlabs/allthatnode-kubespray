@@ -1,0 +1,18 @@
+---
+- name: Add UFW rules for worker nodes on master nodes
+  hosts: kube_control_plane
+  become: true
+  tasks:
+    - name: Get worker node IPs
+      set_fact:
+        worker_ips: "{{ groups['kube_node'] | map('extract', hostvars, 'ansible_host') | list }}"
+
+    - name: Allow worker nodes in UFW
+      ansible.builtin.ufw:
+        rule: allow
+        src: "{{ item }}"
+      loop: "{{ worker_ips }}"
+
+    - name: Reload UFW
+      ansible.builtin.command: ufw reload
+      changed_when: false
