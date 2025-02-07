@@ -1,4 +1,7 @@
 ---
+- name: Add ufw rules for the masterplanes
+  import_playbook: ufw_master.yml
+
 - name: Common tasks for every playbooks
   import_playbook: boilerplate.yml
 
